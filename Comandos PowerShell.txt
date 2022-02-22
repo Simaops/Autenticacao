@@ -1,0 +1,65 @@
+
+# virtualenv
+PS C:\Users\Simaops> python -m venv .\.virtualenvs\dev_env	# cria uma virtualenv
+cd .\.virtualenvs\dev_env
+PS  C:\Users\Simaops\.virtualenvs\dev_env> .\Scripts\activate	# ativa
+Obs.: Se a política de execução do PowerShell está como Restricted, tente o comando 'Set-ExecutionPolicy RemoteSigned' antes de ativar.
+(dev_env) PS C:\Users\SIMÃO INFORMÁTICA\.virtualenvs\dev_env>
+   ^^
+(ativada)
+
+
+(dev_env) PS C:\users\simaops> pip install django    # instala o Django
+
+# Criar seu projeto
+cd D:\Simao\Cursos\PYTHON\Dio\Desenvolvimento_Django\Projetos	# Ir para o diretório onde quer criar seu projeto
+(dev_env) PS D:\Simao\Cursos\PYTHON\Dio\Desenvolvimento_Django\Projetos> django-admin startproject agenda    	# cria o projeto agenda
+(dev_env) PS D:\Simao\Cursos\PYTHON\Dio\Desenvolvimento_Django\Projetos> cd agenda
+(dev_env) PS D:\Simao\Cursos\PYTHON\Dio\Desenvolvimento_Django\Projetos\agenda> django-admin startapp core	# cria a uma aplicação chamada "core"
+
+Abrir o Pycharm
+	Abrir a "pasta agenda" no Pycharm
+
+Configurar o projeto no PyCharm
+	->File ->Settings...
+	Buscar "interpreter"
+	Clica em Show All...
+		Escolher o Python Interpreter
+			Ex.: C:\Users\Simaops\.virtualenvs\dev_env\Scripts\python.exe
+	Abrir o manage.py
+		e Run 'manage'
+		clicar em 'Edit configurations' na setinha de 'manage' a esquerda superior da janela
+			em Parameters, escrever "runserver" -> ok
+			e executar, ao lado	# verifica se o site "Django" abre com sucesso
+
+
+CRIAR TABELAS PADRÕES DO DJANGO: "Para serem vistas no django admin"
+
+Criar tabelas:
+	python manage.py migrate
+
+Criar um usuário:
+	 python manage.py createsuperuser --username admin
+		email: simaops@gmail.com	'email qualquer'
+		senha: admin123
+
+Instalar o app no settings.py em "INSTALLED_APPS = ["
+	'aplicacao' ou se preferir 'core'
+
+Criar as tabelas do django, no Terminal:
+	python manage.py makemigrations core	# cria o arquivo 0001_initial.py
+
+	migrar: rodar sqlmigrate para especificar um arquivo já criado, como por exemplo o 0001_initial.py:
+		python manage.py sqlmigrate core 0001
+
+	implementar no banco de dados:
+		python manage.py migrate core 0001
+
+	registrar no admin:	# abra o aqrquivo admin do seu app
+		from core.models import Evento 	# importa seu app
+		admin.site.register(Evento)		# registra
+		
+	trata o título do evento em models.py:
+		def __str__(self):
+        		return self.titulo
+		reexecuta o manage.py e atualiza o site
